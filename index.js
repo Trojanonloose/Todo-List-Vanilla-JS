@@ -2,7 +2,10 @@ let todoItems = [];
 
 function renderTodo(todo){
     localStorage.setItem('todoItemsRef', JSON.stringify(todoItems));
+    
     const list = document.querySelector('.js-todo-list')
+
+    const item = document.querySelector(`[data-key='${todo.id}']`);
 
     if(todo.deleted){
         item.remove();
@@ -11,9 +14,12 @@ function renderTodo(todo){
     }
 
     const isChecked = todo.checked ? 'done' : '';
+    
     const node = document.createElement("li");
     node.setAttribute('class', `todo-item ${isChecked}`);
+    
     node.setAttribute('data-key', todo.id);
+    
     node.innerHTML = `
     <input id="${todo.id}" type="checkbox"/>
     <label for="${todo.id}" class="tick js-tick"></label>

@@ -17,9 +17,18 @@ body {
   background: #ffe5b4;
 }
 
+@media only screen and (max-width: 500px) {
+  .container {
+    max-width: 20rem;
+    .app-title {
+      font-size: 4rem;
+    }
+  }
+}
+
 .container {
   width: 100%;
-  max-width: 500px;
+  max-width: 30rem;
   height: 90vh;
   margin: 5vh auto;
   padding: 0 1em;
