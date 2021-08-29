@@ -17,7 +17,7 @@ body {
   background: #ffe5b4;
 }
 
-@media only screen and (max-width: 500px) {
+@media screen only and (max-width: 500px) {
   .container {
     max-width: 20rem;
     .app-title {
