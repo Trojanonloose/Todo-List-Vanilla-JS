@@ -61,10 +61,10 @@ function deleteTodo(key){
     renderTodo(todo);
 }
 
-const form = document.querySelector(".js-form");
-form.addEventListener('submit', event => {
+const form = document.querySelector(".add-btn");
+form.addEventListener('click', event => {
     event.preventDefault();
-    const input = document.querySelector('.js-todo-input');
+    const input = document.querySelector(".js-todo-input");
     const text = input.value.trim();
     if(text !== ''){
         addTodo(text);

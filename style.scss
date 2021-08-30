@@ -17,15 +17,6 @@ body {
   background: #ffe5b4;
 }
 
-@media screen only and (max-width: 500px) {
-  .container {
-    max-width: 20rem;
-    .app-title {
-      font-size: 4rem;
-    }
-  }
-}
-
 .container {
   width: 100%;
   max-width: 30rem;
@@ -73,6 +64,15 @@ body {
     &:empty + .empty-state {
       display: flex;
     }
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .container {
+    max-width: 20rem;
+  }
+  .app-title {
+    font-size: 4rem;
   }
 }
 
@@ -133,11 +133,21 @@ input[type="checkbox"] {
 form {
   width: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
+  align-items: center;
   input[type="text"] {
     width: 100%;
     padding: 10px;
     border-radius: 4px;
     border: 3px solid #333;
+  }
+  .add-btn {
+    max-width: 6rem;
+    padding: 10px;
+    margin-top: 15px;
+    background-color: transparent;
+    border: 3px solid black;
+    border-radius: 10px;
   }
 }
