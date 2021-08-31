@@ -1,12 +1,18 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap");
 
-html {
-  box-sizing: border-box;
+$max_width: 100%;
+$bottom-margin: 10px;
+$colorRed: red;
+
+@mixin noBorder {
+  outline: none;
+  border: none;
 }
 
 *,
 *::after,
 *::before {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
@@ -18,7 +24,7 @@ body {
 }
 
 .container {
-  width: 100%;
+  width: $max_width;
   max-width: 30rem;
   height: 90vh;
   margin: 5vh auto;
@@ -29,41 +35,8 @@ body {
   .app-title {
     font-size: 5rem;
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: $bottom-margin;
     opacity: 0.5;
-    font-weight: 700;
-  }
-
-  svg {
-    width: 64px;
-    height: 64px;
-  }
-
-  .empty-state {
-    display: none;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-  }
-
-  .checklist-icon {
-    margin-bottom: 20px;
-  }
-
-  .empty-state__title,
-  .empty-state__description {
-    margin-bottom: 20px;
-  }
-
-  .todo-list {
-    list-style: none;
-    margin-bottom: 20px;
-    &:empty {
-      display: none;
-    }
-    &:empty + .empty-state {
-      display: flex;
-    }
   }
 }
 
@@ -76,78 +49,66 @@ body {
   }
 }
 
-.todo-item {
-  margin-bottom: 10px;
+.js-form {
+  width: $max_width;
   display: flex;
-  width: 100%;
-  justify-content: space-between;
   align-items: center;
+  border-radius: 5px;
+  border: 3px solid black;
+  margin-bottom: $bottom-margin;
+  background-color: white;
 
-  span {
-    flex-grow: 1;
-    font-size: 22px;
-    margin: 0 10px;
-  }
-}
-
-.done span {
-  text-decoration: line-through;
-}
-
-input[type="checkbox"] {
-  display: none;
-}
-
-.tick {
-  width: 30px;
-  height: 30px;
-  cursor: pointer;
-  border-radius: 50%;
-  border: 3px solid #333;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-
-  &::before {
-    content: "🗸";
-    font-size: 20px;
-    display: none;
-  }
-  .done &::before {
-    display: inline;
-  }
-}
-
-.delete-todo {
-  border: none;
-  outline: none;
-  cursor: pointer;
-  background-color: transparent;
-  svg {
-    width: 30px;
-    height: 30px;
-    pointer-events: none;
-  }
-}
-
-form {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
   input[type="text"] {
-    width: 100%;
+    width: $max_width;
     padding: 10px;
-    border-radius: 4px;
-    border: 3px solid #333;
+    @include noBorder();
+    flex-grow: 1;
   }
-  .add-btn {
-    max-width: 6rem;
-    padding: 10px;
-    margin-top: 15px;
-    background-color: transparent;
-    border: 3px solid black;
-    border-radius: 10px;
+}
+
+.todo-list {
+  width: $max_width;
+  // height: 100%;
+  border-radius: 5px;
+  padding: 10px 15px;
+  ul {
+    list-style: none;
   }
+  .list-item {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid black;
+    font-size: 1rem;
+    padding: 15px 0;
+    color: #333;
+    transition: all 0.3s ease-out;
+    .todo-item {
+      flex-grow: 1;
+    }
+  }
+  .clear-all {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    &:hover {
+      color: $colorRed;
+    }
+  }
+}
+
+button {
+  font-size: 1.2rem;
+  @include noBorder();
+  background-color: transparent;
+  margin-right: 5px;
+  opacity: 0.8;
+  &:hover {
+    color: $colorRed;
+  }
+}
+
+i {
+  pointer-events: none;
 }

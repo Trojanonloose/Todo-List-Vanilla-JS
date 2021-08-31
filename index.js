@@ -1,97 +1,56 @@
-let todoItems = [];
+//Selectors
+document.querySelector('.js-form').addEventListener('submit', handleSubmitForm);
+document.querySelector('ul').addEventListener('click', handleCheckOrDelete);
+document.querySelector('.clear-all').addEventListener('click', handleClearAll);
 
-function renderTodo(todo){
-    localStorage.setItem('todoItemsRef', JSON.stringify(todoItems));
-    
-    const list = document.querySelector('.js-todo-list')
-
-    const item = document.querySelector(`[data-key='${todo.id}']`);
-
-    if(todo.deleted){
-        item.remove();
-        if(todoItems.length === 0) list.innerHTML = '';
-        return
-    }
-
-    const isChecked = todo.checked ? 'done' : '';
-    
-    const node = document.createElement("li");
-    node.setAttribute('class', `todo-item ${isChecked}`);
-    
-    node.setAttribute('data-key', todo.id);
-    
-    node.innerHTML = `
-    <input id="${todo.id}" type="checkbox"/>
-    <label for="${todo.id}" class="tick js-tick"></label>
-    <span>${todo.text}</span>
-    <button class="delete-todo js-delete-todo">
-    <svg><use href="#delete-icon"></use></svg>
-    `
-    if(item){
-        list.replaceChild(node, item);
-    } else{
-        list.append(node);
-    }
+//Event handlers
+function handleSubmitForm(e){
+    e.preventDefault();
+    let input = document.querySelector('input');
+    if(input.value !== '')
+        addTodo(input.value);
+    input.value = '';   
+    // document.querySelector('.js-form').reset();
 }
 
-function addTodo(text){
-    todo = {
-        text,
-        checked: false,
-        id: Date.now(),
-    };
-
-    todoItems.push(todo);
-    renderTodo(todo);
+function handleCheckOrDelete(e){
+    if(e.target.name == 'checkButton')
+        checkTodo(e);
+    
+    if(e.target.name == 'deleteButton')
+        deleteTodo(e);
 }
 
-function toggleDone(key){
-    const index = todoItems.findIndex(item => item.id === Number(key));
-    todoItems[index].checked = !todoItems[index].checked;
-    renderTodo(todoItems[index]); 
-};
 
-function deleteTodo(key){
-    const index = todoItems.findIndex(item => item.id === Number(key));
-    const todo = {
-        deleted: true,
-        ...todoItems[index]
-    };
-    todoItems = todoItems.filter(item => item.id !== Number(key));
-    renderTodo(todo);
+//Helpers
+function addTodo(todo){
+    let untitledList = document.querySelector('ul');
+    let listItem = document.createElement('li');
+
+    listItem.setAttribute('class', 'list-item');
+
+    listItem.innerHTML = `
+    <span class="todo-item">${todo}</span>
+    <button name="checkButton"><i class="fas fa-check-square"></i></button>
+    <button name="deleteButton"><i class="fas fa-trash"></i></button>
+    `;
+
+    untitledList.appendChild(listItem);
 }
 
-const form = document.querySelector(".add-btn");
-form.addEventListener('click', event => {
-    event.preventDefault();
-    const input = document.querySelector(".js-todo-input");
-    const text = input.value.trim();
-    if(text !== ''){
-        addTodo(text);
-        input.value = '';
-        input.focus();
-    }
-});
-
-const list = document.querySelector('.js-todo-list')
-list.addEventListener('click', event =>{
-    if(event.target.classList.contains('.js-tick')){
-        const itemKey = event.target.parentElement.dataset.key;
-        toggleDone(itemKey);
-    }
-});
-
-if(event.target.classList.contains('.js-delete-todo')){
-    const itemKey = event.target.parentElement.dataset.key;
-    deleteTodo(itemKey);
+function checkTodo(e){
+    let item = e.target.parentNode;
+    if(item.style.textDecoration == 'line-through')
+        item.style.textDecoration = 'none';
+    else
+        item.style.textDecoration = 'line-through';
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    const ref = localStorage.getItem('todoItemsRef');
-    if (ref) {
-        todoItems = JSON.parse(ref);
-        todoItems.forEach(t => {
-        renderTodo(t);
-        });
-    }
-});
+function deleteTodo(e){
+    let item = e.target.parentNode;
+    item.remove();
+}
+
+function handleClearAll(e){
+    document.querySelector('ul').innerHTML = '';
+}
